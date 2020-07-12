@@ -85,14 +85,14 @@ export default {
     articlesNavigation() {
       return articlesNavigation
     },
-    currentArticleIdFromApiId() {
-      return this.articlesNavigation
-        .reduce((acc, category) => {
-          acc = acc.concat(category.articles)
-          return acc
-        }, [])
-        .find(article => article.apiId === this.currentArticleApiId).id
-    },
+    // currentArticleIdFromApiId() {
+    //   return this.articlesNavigation
+    //     .reduce((acc, category) => {
+    //       acc = acc.concat(category.articles)
+    //       return acc
+    //     }, [])
+    //     .find(article => article.apiId === this.currentArticleApiId).id
+    // },
     range() {
       return _.range(1, this.currentArticleIdFromApiId)
         .splice(-1, 1)
@@ -112,7 +112,7 @@ export default {
     async getArticle() {
       this.isLoading = true
       try {
-        const article = await this.$http.get(`articles/${this.currentArticleApiId}`)
+        const article = await this.$http.get(`article/${this.currentArticleApiId}`)
         this.course = article.data
       } catch (error) {
         console.error(error)
@@ -121,7 +121,7 @@ export default {
     },
     handleQuizzBtn() {
       this.arePreviousArticlesReaded
-        ? this.$router.push({ name: "Quizz", params: { id: this.course.quizz.id } })
+        ? this.$router.push({ name: "Quizz", params: { id: this.course.quizzId } })
         : (this.shouldShowModal = true)
     }
   },

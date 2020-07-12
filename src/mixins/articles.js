@@ -4,7 +4,7 @@ export const articlesMixin = {
       return JSON.parse(localStorage.getItem("readedArticles"))
     },
     isReaded() {
-      return article => this.readedArticles.includes(article.id)
+      return article => this.readedArticles.includes(article.apiId)
     }
   }
 }

@@ -27,7 +27,8 @@ export default {
   },
   data() {
     return {
-      isFirstTime: true
+      isFirstTime: true,
+      testArticle: {}
     }
   },
   created() {

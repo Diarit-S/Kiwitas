@@ -6,10 +6,10 @@ let setup = {
     this.setDefaultHeader()
   },
   setBaseUrl() {
-    axios.defaults.baseURL = "https://b8567e21d893.ngrok.io/api"
+    axios.defaults.baseURL = process.env.VUE_APP_API_URL
   },
   setDefaultHeader() {
-    axios.defaults.headers.common["Accept"] = "application/json"
+    // axios.defaults.headers.common["Accept"] = "application/json"
   }
 }
 

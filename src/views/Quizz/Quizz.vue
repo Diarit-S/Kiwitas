@@ -90,7 +90,7 @@ export default {
           acc = acc.concat(category.articles)
           return acc
         }, [])
-        .find(article => article.quizzId === `${this.$route.params.id}`).id
+        .find(article => article.quizzId === `${this.$route.params.id}`).apiId
     }
   },
   methods: {

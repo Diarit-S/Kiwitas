@@ -8,45 +8,35 @@
       {
         "name": "La république", 
         "icon": "french_flag",
-        "id": "1",
-        "apiId": "1",
-        "quizzId": "1",
+        "apiId": "5f0b3c4d9802d87b51ee43b3",
         "branchesModel": "cube",
         "abstract": "La république, qui tient son nom du latin res publica qui désigne l'intérêt général, l'intérêt publique, est une méthode de gouvernement qui proscrit toute forme de monarchie ..."
       },
       {
         "name": "Le président", 
         "icon": "president",
-        "id": "2",
         "apiId": "4",
-        "quizzId": "4",
         "branchesModel": "cube",
         "abstract": "Le Président de la République veille au respect de la Constitution. Il assure, par son arbitrage, le fonctionnement régulier ..."
       },
       {
         "name": "Le premier ministre", 
         "icon": "prime_minister",
-        "id": "3",
         "apiId": "3",
-        "quizzId": "3",
         "branchesModel": "cube",
         "abstract": "Le Premier ministre est d’abord le chef du gouvernement, il est nommé par le Président ..."
       },
       {
         "name": "Le gouvernement", 
         "icon": "classical_building",
-        "id": "4",
         "apiId": "5",
-        "quizzId": "5",
         "branchesModel": "cube",
         "abstract": "Dans le régime parlementaire, tel qu’il existe dans la plupart des pays d’Europe, le terme de Gouvernement désigne l’organe collégial ..."
       },
       {
         "name": "Le parlement", 
         "icon": "classical_building",
-        "id": "5",
         "apiId": "6",
-        "quizzId": "6",
         "branchesModel": "single",
         "abstract": "Le Parlement rassemble des élus qui représentent les citoyens, légifèrent (c’est-à-dire votent les lois) ..."
       }
@@ -61,27 +51,21 @@
       {
         "name": "Introduction", 
         "icon": "chart",
-        "id": "6",
         "apiId": "14",
-        "quizzId": "12",
         "branchesModel": "single",
         "abstract": "Les finances publiques sont une discipline du droit public, et plus précisément du droit public financier ..."
       },
       {
         "name": "Impôts et fiscalité", 
         "icon": "receipt",
-        "id": "7",
         "apiId": "15",
-        "quizzId": "13",
         "branchesModel": "single",
         "abstract": "On peut sommairement définir un impôt comme un versement obligatoire et sans contrepartie aux administrations publiques ..."
       },
       {
         "name": "Financement sociale", 
         "icon": "pill",
-        "id": "8",
         "apiId": "16",
-        "quizzId": "14",
         "branchesModel": "single",
         "abstract": "Les prestations sociales désignent toutes les prestations en espèces (revenu de remplacement, ex : indemnités journalières) ..."
       }
@@ -96,27 +80,21 @@
       {
         "name": "Principes", 
         "icon": "judge",
-        "id": "9",
         "apiId": "10",
-        "quizzId": "9",
         "branchesModel": "single",
         "abstract": "Il est possible de rattacher symboliquement la justice à plusieurs filiations divines, selon les cultures ou les religions auxquelles on se réfère ..."
       },
       {
         "name": "Justice pénale", 
         "icon": "pen",
-        "id": "10",
         "apiId": "11",
-        "quizzId": "10",
         "branchesModel": "single",
         "abstract": "Une affaire pénale désigne la prise en charge par l’institution judiciaire des conduites que la société réprime ..."
       },
       {
         "name": "Justice civile", 
         "icon": "balance",
-        "id": "11",
         "apiId": "12",
-        "quizzId": "11",
         "branchesModel": "single",
         "abstract": "En France, la **justice civile** juge les conflits d'intérêts entre les habitants. Elle a un rôle d'arbitre et tente une conciliation entre les adversaires. Si la conciliation échoue il y a procès ..."
       }
@@ -131,36 +109,28 @@
       {
         "name": "Liberté et droits", 
         "icon": "hand",
-        "id": "12",
         "apiId": "2",
-        "quizzId": "2",
         "branchesModel": "cube",
         "abstract": "En France, la Constitution de 1958 ne mentionne pas la notion de ''droits fondamentaux'', ni ne comporte de liste ..."
       },
       {
         "name": "Le devoir civique", 
         "icon": "man_hand",
-        "id": "13",
         "apiId": "7",
-        "quizzId": "7",
         "branchesModel": "cube",
         "abstract": "Un devoir est une obligation qui peut être de nature juridique ou morale. Les devoirs constituent la contrepartie des droits des citoyens ..."
       },
       {
         "name": "Le vote", 
         "icon": "vote",
-        "id": "14",
         "apiId": "8",
-        "quizzId": "8",
         "branchesModel": "cube",
         "abstract": "Le droit de vote est à la base de la démocratie. Établi en France par la Déclaration des droits de l’homme ..."
       },
       {
         "name": "Adhérer à un parti", 
         "icon": "simple_flag",
-        "id": "15",
         "apiId": "9",
-        "quizzId": "",
         "branchesModel": "cube",
         "abstract": "Un parti politique est une association organisée qui rassemble des citoyens unis par une philosophie ou une idéologie commune ..."
       }
@@ -175,18 +145,14 @@
       {
         "name": "Définitions", 
         "icon": "brain",
-        "id": "16",
         "apiId": "17",
-        "quizzId": "",
         "branchesModel": "single",
         "abstract": "Face au flot d’informations qui nous inonde aujourd’hui, il est crucial d’exercer notre esprit critique en permanence afin de ne pas être abusés ..."
       },
       {
         "name": "Le discours fallacieux", 
         "icon": "magnifying_glass",
-        "id": "17",
         "apiId": "18",
-        "quizzId": "15",
         "branchesModel": "single",
         "abstract": "Un raisonnement fallacieux est un raisonnement incorrect qui a pourtant une apparence de validité logique ..."
       }

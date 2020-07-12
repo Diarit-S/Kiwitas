@@ -26,7 +26,7 @@ export default {
   methods: {
     previousChapterArticleIds(index) {
       if (index !== 0) {
-        return this.articleNavigation[index - 1].articles.map(article => article.id)
+        return this.articleNavigation[index - 1].articles.map(article => article.apiId)
       }
     }
   }
