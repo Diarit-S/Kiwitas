@@ -61,10 +61,8 @@ export default {
   },
   data() {
     return {
-      steps: 0,
       currentQuestion: 1,
       activeAssertation: 0,
-      quizz: {},
       isResponseValidated: false,
       score: 0,
       isQuizzFinished: false,
@@ -73,9 +71,20 @@ export default {
       to: null
     }
   },
+  props: {
+    steps: {
+      type: Number,
+      required: true,
+      default: 0
+    },
+    articleId: {
+      type: String,
+      required: true
+    }
+  },
   computed: {
     goodAnswerPosition() {
-      return Number(this.quizz.questions[this.currentQuestion - 1].answer) + 1
+      return this.question.answerIndex
     },
     readedArticles() {
       const storedReadedArticles = localStorage["readedArticles"]
@@ -83,14 +92,6 @@ export default {
     },
     articlesNavigation() {
       return articlesNavigation
-    },
-    currentQuizzArticleId() {
-      return this.articlesNavigation
-        .reduce((acc, category) => {
-          acc = acc.concat(category.articles)
-          return acc
-        }, [])
-        .find(article => article.quizzId === `${this.$route.params.id}`).apiId
     }
   },
   methods: {
@@ -110,9 +111,8 @@ export default {
     },
     async getArticleQuizz() {
       try {
-        const quizz = await this.$http.get(`/quizz/${this.$route.params.id}`)
-        this.quizz = quizz.data
-        this.steps = quizz.data.questions.length
+        const question = await this.$http.get(`/question/${this.$route.params.id}`)
+        this.question = question.data
       } catch (error) {
         console.log(error)
       }
