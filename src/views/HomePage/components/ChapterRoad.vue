@@ -73,7 +73,7 @@ export default {
     isFirstArticleRoadActive() {
       return this.chapter.index === 1
         ? true
-        : this.previousChapterArticleIds.every(id => this.readedArticles.includes(id))
+        : this.previousChapterArticleIds.every(id => this.readArticles.includes(id))
     }
   },
   methods: {

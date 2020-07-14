@@ -26,7 +26,7 @@
         )
         remember(
           :listToRemember="course.to_remember" 
-          :courseId="currentArticleIdFromApiId"
+          :courseId="$route.params.id"
         )
         v-btn(
           :class="$style['quizz-btn']" 
@@ -58,7 +58,7 @@ import { articlesMixin } from "@/mixins/articles"
 
 import articlesNavigation from "@/utils/articlesNavigation.json"
 
-import _ from "lodash"
+// import _ from "lodash"
 
 export default {
   name: "Course",
@@ -85,23 +85,24 @@ export default {
     articlesNavigation() {
       return articlesNavigation
     },
-    // currentArticleIdFromApiId() {
-    //   return this.articlesNavigation
-    //     .reduce((acc, category) => {
-    //       acc = acc.concat(category.articles)
-    //       return acc
-    //     }, [])
-    //     .find(article => article.apiId === this.currentArticleApiId).id
-    // },
-    range() {
-      return _.range(1, this.currentArticleIdFromApiId)
-        .splice(-1, 1)
-        .map(number => `${number}`)
+    navigationArticleIds() {
+      return this.articlesNavigation
+        .reduce((acc, category) => {
+          acc = acc.concat(category.articles)
+          return acc
+        }, [])
+        .map(article => article.apiId)
+    },
+    currentArticleIndexInNav() {
+      return this.navigationArticleIds.findIndex(apiId => apiId === this.currentArticleApiId)
+    },
+    previousArticlesIds() {
+      return this.navigationArticleIds.slice(0, this.currentArticleIndexInNav)
     },
     arePreviousArticlesReaded() {
-      return this.currentArticleIdFromApiId === "1"
+      return this.currentArticleIndexInNav === "0"
         ? true
-        : this.range.every(id => this.readedArticles.includes(id))
+        : this.previousArticlesIds.every(id => this.readArticles.includes(id))
     },
     isMediaImage() {
       const regex = /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i
@@ -121,7 +122,7 @@ export default {
     },
     handleQuizzBtn() {
       this.arePreviousArticlesReaded
-        ? this.$router.push({ name: "Quizz", params: { id: this.course.quizzId } })
+        ? this.$router.push({ name: "Quizz", params: { id: this.course._id } })
         : (this.shouldShowModal = true)
     }
   },

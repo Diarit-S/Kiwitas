@@ -33,7 +33,7 @@ export default {
   },
   computed: {
     isQuizzDone() {
-      return this.readedArticles.includes(this.courseId)
+      return this.readArticles.includes(this.courseId)
     }
   }
 }

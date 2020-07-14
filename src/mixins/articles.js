@@ -1,10 +1,10 @@
 export const articlesMixin = {
   computed: {
-    readedArticles() {
-      return JSON.parse(localStorage.getItem("readedArticles"))
+    readArticles() {
+      return JSON.parse(localStorage.getItem("readArticles"))
     },
     isReaded() {
-      return article => this.readedArticles.includes(article.apiId)
+      return article => this.readArticles.includes(article.apiId)
     }
   }
 }

@@ -1,7 +1,7 @@
 <template lang="pug">
   v-stepper(
-    v-model="currentQuestion"
-    v-if="quizz.questions"
+    v-model="currentQuestion",
+    v-if="questions.length"
   )
     v-stepper-header
       template(v-for="(step, index) in steps")
@@ -18,11 +18,11 @@
       )
         div.question
           span {{ `Question ${index + 1} : ` }}
-          span.question__body {{ `${quizz.questions[index].title}` }}
-        img(:src="quizz.questions[index].media_link")
+          span.question__body {{ `${questions[index].title}` }}
+        img(:src="questions[index].mediaUrl")
         div.assertations
           assertation(
-            v-for="(assertation, index) in quizz.questions[index].assertations" 
+            v-for="(assertation, index) in questions[index].assertations" 
             :key="'assertation' + index" 
             :assertation="assertation"
             v-model="activeAssertation"
@@ -31,7 +31,11 @@
             :goodAnswerIndex="goodAnswerPosition"
           )
     div(style="height: 100px")
-      v-btn(v-if="activeAssertation && !isResponseValidated" color="primary" @click="analyseAnswer()") Valider
+      v-btn(
+        v-if="activeAssertation && !isResponseValidated" 
+        color="primary" 
+        @click="analyseAnswer()"
+      ) Valider
       v-btn(
         v-else-if="isResponseValidated" 
         color="primary" 
@@ -50,7 +54,7 @@ import Assertation from "./components/Assertation.vue"
 import FinishedQuizzPopup from "./components/FinishedQuizzPopup.vue"
 import LeaveQuizzDialog from "./components/LeaveQuizzDialog.vue"
 
-import articlesNavigation from "@/utils/articlesNavigation.json"
+// import articlesNavigation from "@/utils/articlesNavigation.json"
 
 export default {
   name: "Quizz",
@@ -68,30 +72,18 @@ export default {
       isQuizzFinished: false,
       canLeaveRoute: null,
       showDialog: false,
-      to: null
-    }
-  },
-  props: {
-    steps: {
-      type: Number,
-      required: true,
-      default: 0
-    },
-    articleId: {
-      type: String,
-      required: true
+      to: null,
+      questions: [],
+      steps: 0
     }
   },
   computed: {
     goodAnswerPosition() {
-      return this.question.answerIndex
+      return Number(this.questions[this.currentQuestion - 1].answerIndex) + 1
     },
-    readedArticles() {
-      const storedReadedArticles = localStorage["readedArticles"]
-      return storedReadedArticles ? JSON.parse(storedReadedArticles) : []
-    },
-    articlesNavigation() {
-      return articlesNavigation
+    readArticles() {
+      const storedreadArticles = localStorage["readArticles"]
+      return storedreadArticles ? JSON.parse(storedreadArticles) : []
     }
   },
   methods: {
@@ -104,15 +96,16 @@ export default {
         this.canLeaveRoute = true
         this.isQuizzFinished = true
         if (this.score === this.steps) {
-          const readedArticles = [...this.readedArticles, this.currentQuizzArticleId]
-          localStorage.setItem("readedArticles", JSON.stringify(readedArticles))
+          const readArticles = [...this.readArticles, this.$route.params.id]
+          localStorage.setItem("readArticles", JSON.stringify(readArticles))
         }
       }
     },
-    async getArticleQuizz() {
+    async getArticleQuestions() {
       try {
-        const question = await this.$http.get(`/question/${this.$route.params.id}`)
-        this.question = question.data
+        const questions = await this.$http.get(`/question/fromArticleId/${this.$route.params.id}`)
+        this.questions = questions.data
+        this.steps = questions.data.length
       } catch (error) {
         console.log(error)
       }
@@ -131,7 +124,6 @@ export default {
       this.isResponseValidated = false
     },
     handleDialogDecision(decision) {
-      console.warn(decision)
       this.canLeaveRoute = decision
       if (decision) {
         this.$router.push(this.to)
@@ -142,7 +134,7 @@ export default {
     }
   },
   created() {
-    this.getArticleQuizz()
+    this.getArticleQuestions()
   },
   beforeRouteLeave(to, from, next) {
     if (this.canLeaveRoute) {
