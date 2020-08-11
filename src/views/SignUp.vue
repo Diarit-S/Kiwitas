@@ -56,7 +56,7 @@ export default {
       const { name, lastName, email, password, username } = this
       // eslint-disable-next-line no-unused-vars
       const sendUserData = await this.$http
-        .post("/users", {
+        .post("/auth/signup", {
           name,
           lastName,
           email,
@@ -64,9 +64,8 @@ export default {
           username
         })
         .then(response => {
-          if (response.status === 201) {
-            this.getUser()
-          }
+          console.error("its okkkk")
+          console.log(response)
         })
         .catch(e => {
           console.log(e)

@@ -39,19 +39,22 @@ export default {
     validate() {
       this.$refs.form.validate()
     },
-    getUser() {
+    async getUser() {
       this.isLoading = true
       this.validate()
       const { email, password } = this
-      this.$store.dispatch("getAccountData", { email, password })
-      setTimeout(() => {
-        if (this.isLoged) {
-          this.$router.push("/")
-        } else {
-          this.failLogIn = true
-          this.isLoading = false
-        }
-      }, 3000)
+      const token = await this.$http
+        .post("/auth/login", { email, password })
+        .catch(err => console.error(err))
+      // setTimeout(() => {
+      //   if (this.isLoged) {
+      //     this.$router.push("/")
+      //   } else {
+      //     this.failLogIn = true
+      //     this.isLoading = false
+      //   }
+      // }, 3000)
+      console.log(token)
     }
   },
   computed: {

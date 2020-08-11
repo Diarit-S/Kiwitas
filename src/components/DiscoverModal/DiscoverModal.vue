@@ -67,7 +67,7 @@ export default {
         this.setLocalUser(localUser)
         /* this.setBackUser(localUser) */
       } else if (!this.favorite && whiteList.includes(id)) {
-        favList = favList.filter(articleFav => articleFa.id !== id)
+        favList = favList.filter(articleFav => articleFav.id !== id)
         localUser.favorite_articles = favList
         this.setLocalUser(localUser)
         /* this.setBackUser(localUser) */

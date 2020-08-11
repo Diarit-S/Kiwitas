@@ -1,5 +1,5 @@
 <template lang="pug">
-  div(:class="[$style.articleSticker, $style[className]]" @click="openModal")
+  div(:class="[$style.articleSticker, $style[className], {[$style['chapters-first']] : isChaptersFirst}]" @click="openModal")
     v-badge(
       bottom
       style="z-index: 4"
@@ -54,6 +54,10 @@ export default {
       required: false
     },
     activeBorder: {
+      type: Boolean,
+      required: false
+    },
+    isChaptersFirst: {
       type: Boolean,
       required: false
     }
@@ -135,6 +139,10 @@ export default {
 
 .single {
   margin: 3rem 0 2rem 0;
+}
+
+.single.chapters-first {
+  margin-top: 1rem;
 }
 
 .single-road {

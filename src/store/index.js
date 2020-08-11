@@ -1,6 +1,6 @@
 import Vue from "vue"
 import Vuex from "vuex"
-import Axios from "axios"
+import axios from "axios"
 import jwt_decode from "jwt-decode"
 
 Vue.use(Vuex)
@@ -23,7 +23,8 @@ export default new Vuex.Store({
       commit("getAccountData", data.localUser)
     },
     async getAccountData({ commit, state }, { email, password }) {
-      const getUserToken = await Axios.post("/login_check", { email, password })
+      const getUserToken = await axios
+        .post("/login_check", { email, password })
         .then(response => {
           // Check if these id are correct and get the token if is it
           if (response.status === 200) {
@@ -36,7 +37,7 @@ export default new Vuex.Store({
       if (getUserToken !== undefined) {
         // If we got a token we decode it do get the user ID
         const idUser = jwt_decode(getUserToken).user
-        const getUserData = await Axios.get(`/user/${idUser}`).then(response => {
+        const getUserData = await axios.get(`/user/${idUser}`).then(response => {
           return response.data
         })
         // here we store the userData in our app

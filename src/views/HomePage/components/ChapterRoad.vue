@@ -17,6 +17,7 @@
       v-for="(article, index) in structuredChapterRoad.single" 
       :article="article"
       className="single"
+      :isChaptersFirst="index === 0 && (!structuredChapterRoad.cube || structuredChapterRoad.cube.length < 1)"
       :key="chapter.categoryName + 'singleArticle' + index"
       :isLastArticle="isLastChapter && index === structuredChapterRoad.single.length -1"
       :activeBorder="hasActiveBorder('single', index)"

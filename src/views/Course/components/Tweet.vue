@@ -21,15 +21,16 @@
         img(src='@/assets/icons/tweet_retweet.svg')
         img(src='@/assets/icons/tweet_heart.svg')
         img(src='@/assets/icons/tweet_save.svg')
-    tweetos
-    div(:class="$style.response")
-      div
-        p(v-html="tweet.content")
-        div(:class="$style['comment-icons']")
-          img(src='@/assets/icons/tweet_comment.svg')
-          img(src='@/assets/icons/tweet_retweet.svg')
-          img(src='@/assets/icons/tweet_heart.svg')
-          img(src='@/assets/icons/tweet_save.svg')
+    template(v-if="tweet.content")
+      tweetos
+      div(:class="$style.response")
+        div
+          p(v-html="tweet.content")
+          div(:class="$style['comment-icons']")
+            img(src='@/assets/icons/tweet_comment.svg')
+            img(src='@/assets/icons/tweet_retweet.svg')
+            img(src='@/assets/icons/tweet_heart.svg')
+            img(src='@/assets/icons/tweet_save.svg')
 
       
 </template>
