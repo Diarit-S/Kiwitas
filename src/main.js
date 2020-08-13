@@ -7,6 +7,9 @@ import vuetify from "./plugins/vuetify"
 import axios from "axios"
 import axiosSetup from "@/utils/axios-setup"
 import "@/scss/styles.scss"
+import { handleError } from "./utils/errorHandle"
+
+Vue.config.errorHandler = handleError
 
 axiosSetup.initSetup()
 

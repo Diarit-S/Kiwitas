@@ -1,14 +1,15 @@
 <template lang="pug">
   div(:class="$style.signIn")
-    loader(v-if="isLoading" :class="$style.loader")
-    template(v-else)
+    //- loader(v-if="isLoading" :class="$style.loader")
+    template()
       h2 Connecte toi à #[span Kiwitas]
         p ou #[router-link(to="/sign-up") inscris-toi]
-      v-form(:class="$style.form" ref="form" v-model="valid" @submit.prevent="getUser")
+      v-form(:class="$style.form" ref="form" v-model="valid" @submit.prevent="login")
         p(v-if="failLogIn") Tes identifiants ne correspondent pas.
         v-text-field(v-model="email" :rules="emailRules" label="E-mail exemple@gmail.com" outlined required)
         v-text-field(v-model="password" :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" :rules="passwordRules" :type="show1 ? 'text' : 'password'" @click:append="show1 = !show1" label="Mot de passe" outlined required)
-        v-btn(:disabled="!valid" color="primary"  @click="getUser") Je me connecte
+        v-btn(:disabled="!valid" color="primary"  @click="login") Je me connecte
+        v-btn(color="primary" @click="logState") Log state
 </template>
 
 <script>
@@ -39,22 +40,14 @@ export default {
     validate() {
       this.$refs.form.validate()
     },
-    async getUser() {
+    async login() {
       this.isLoading = true
       this.validate()
       const { email, password } = this
-      const token = await this.$http
-        .post("/auth/login", { email, password })
-        .catch(err => console.error(err))
-      // setTimeout(() => {
-      //   if (this.isLoged) {
-      //     this.$router.push("/")
-      //   } else {
-      //     this.failLogIn = true
-      //     this.isLoading = false
-      //   }
-      // }, 3000)
-      console.log(token)
+      this.$store.dispatch("login", { email, password })
+    },
+    logState() {
+      console.log(this.$store.state)
     }
   },
   computed: {

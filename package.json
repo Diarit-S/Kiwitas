@@ -11,6 +11,7 @@
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
     "dotenv": "^8.2.0",
+    "js-cookie": "^2.2.1",
     "jwt-decode": "^2.2.0",
     "pug": "^3.0.0",
     "pug-plain-loader": "^1.0.0",
