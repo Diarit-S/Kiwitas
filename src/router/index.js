@@ -1,5 +1,6 @@
 import Vue from "vue"
 import VueRouter from "vue-router"
+import store from "@/store"
 
 Vue.use(VueRouter)
 
@@ -31,14 +32,12 @@ const routes = [
   {
     path: "/sign-in",
     name: "SignIn",
-    component: () => import("@/views/SignIn.vue"),
-    meta: { isDisconected: true }
+    component: () => import("@/views/SignIn.vue")
   },
   {
     path: "/sign-up",
     name: "SignUp",
-    component: () => import("@/views/SignUp.vue"),
-    meta: { isDisconected: true }
+    component: () => import("@/views/SignUp.vue")
   },
   {
     path: "/profil",
@@ -63,16 +62,12 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const authUser = JSON.parse(localStorage.getItem("userLog"))
+  const isUserLogged = store.getters.isUserLogged
   if (to.meta.requiresAuth) {
-    if (authUser === null && to.path !== "/sign-up") {
-      next("/sign-up")
-    } else next()
-  } else if (to.meta.isDisconected) {
-    if (authUser !== null && to.path !== "/profil") {
-      next("/profil")
-    } else next()
-  } else next()
+    !isUserLogged && !["SignUp", "SignIn"].includes(to.name) ? next("/") : next()
+  } else {
+    next()
+  }
 })
 
 export default router

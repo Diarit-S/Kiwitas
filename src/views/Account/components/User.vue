@@ -2,8 +2,8 @@
   div(:class="$style.user")
     img(src="/img/icons/profil-picture.png" alt="user profil picture")
     div
-      h3 {{$store.state.accountData.name}} {{$store.state.accountData.lastName}}
-      p {{$store.state.accountData.username}}
+      h3 {{$store.state.userData.user.name}} {{$store.state.userData.user.lastName}}
+      p {{$store.state.userData.user.username}}
 </template>
 
 <script>

@@ -10,10 +10,15 @@ export default new Vuex.Store({
   state: {
     userData: {}
   },
+  getters: {
+    isUserLogged(state) {
+      return state.userData.token ? true : false
+    }
+  },
   mutations: {
     SET_ACCOUNT(state, payload) {
       const { userData } = payload
-      state.userData = { userData }
+      state.userData = userData
     },
     STORE_NEW_TOKEN(state, token) {
       Cookies.set("token", token, {
@@ -23,7 +28,7 @@ export default new Vuex.Store({
   },
   actions: {
     async login(context, credentials) {
-      const userData = await axios.post("/auth/loginn", credentials)
+      const userData = await axios.post("/auth/login", credentials)
       context.commit("SET_ACCOUNT", { userData: userData.data })
       context.commit("STORE_NEW_TOKEN", userData.data.token)
     }

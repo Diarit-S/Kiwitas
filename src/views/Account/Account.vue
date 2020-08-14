@@ -3,7 +3,7 @@
     div(:class="$style['account__container']")
       User
       Tabs(@changeCategory="changeCategory")
-      Favorites(v-if="isFavorite" v-for="favorite in favorites" :key="favorite.id" :content="favorite")
+      Favorites(v-if="isFavorite" v-for="favorite in favArticles" :key="favorite.id" :content="favorite")
       Certification(v-if="isCertification")
       span(v-else-if="favorites.length === 0") Vous retrouverez ici vos favoris
 </template>
@@ -28,19 +28,23 @@ export default {
       isCertification: false
     }
   },
-  mounted() {
-    this.favorites = this.userLog.favorite_articles
-  },
   methods: {
     changeCategory(category) {
       category === "fav" ? (this.isFavorite = true) : (this.isFavorite = false)
       this.isCertification = !this.isFavorite
+    },
+    async getFavoriteArticles() {
+      const fav = await this.$http.post("/favoriteArticles", { ids: this.favArticles })
+      this.favorites = fav
     }
   },
   computed: {
-    userLog() {
-      return JSON.parse(localStorage.getItem("userLog"))
+    favArticles() {
+      return this.$store.state.userData.user.favorites
     }
+  },
+  created() {
+    this.getFavoriteArticles()
   }
 }
 </script>

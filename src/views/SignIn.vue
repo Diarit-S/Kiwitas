@@ -1,7 +1,7 @@
 <template lang="pug">
   div(:class="$style.signIn")
-    //- loader(v-if="isLoading" :class="$style.loader")
-    template()
+    loader(v-if="isLoading" :class="$style.loader")
+    template(v-else)
       h2 Connecte toi à #[span Kiwitas]
         p ou #[router-link(to="/sign-up") inscris-toi]
       v-form(:class="$style.form" ref="form" v-model="valid" @submit.prevent="login")
@@ -44,15 +44,15 @@ export default {
       this.isLoading = true
       this.validate()
       const { email, password } = this
-      this.$store.dispatch("login", { email, password })
+      this.$store.dispatch("login", { email, password }).finally(() => (this.isLoading = false))
     },
     logState() {
       console.log(this.$store.state)
     }
   },
   computed: {
-    isLoged() {
-      return this.$store.getters.isLoged
+    isLogged() {
+      return this.$store.getters.isLogged
     }
   }
 }

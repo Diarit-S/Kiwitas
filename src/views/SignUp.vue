@@ -76,7 +76,7 @@ export default {
       const { email, password } = this
       this.$store.dispatch("getAccountData", { email, password })
       setTimeout(() => {
-        if (this.isLoged) {
+        if (this.isLogged) {
           this.$router.push("/")
         } else {
           this.failLogIn = true
@@ -85,8 +85,8 @@ export default {
     }
   },
   computed: {
-    isLoged() {
-      return this.$store.getters.isLoged
+    isLogged() {
+      return this.$store.getters.isUserLogged
     }
   }
 }

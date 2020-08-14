@@ -7,13 +7,13 @@
       v-list-item
         v-list-item-content(:class="$style.profile")
           h3 PROFIL
-          div(v-if="hasData" :class="$style.profileLoged")
+          div(v-if="isUserLogged" :class="$style.profileLogged")
             img(src="/img/icons/profil-picture.png")
             div(:class="$style.profileName")
-              p {{$store.state.accountData.name}} {{$store.state.accountData.last_name}}
-              p {{$store.state.accountData.username}}
-          router-link(to="/profil" v-if="hasData" :class="$style.showProfile") Voir profil ►
-          div(v-if="!hasData")
+              p {{$store.state.userData.user.name}} {{$store.state.userData.user.lastName}}
+              p {{$store.state.userData.user.username}}
+          router-link(to="/profil" v-if="isUserLogged" :class="$style.showProfile") Voir profil ►
+          div(v-if="!isUserLogged")
             v-btn(medium color="primary" to="/sign-in" :class="$style.signIn") CONNEXION
       v-list-item
         v-list-item-content(:class="$style.discover")
@@ -22,14 +22,17 @@
       v-list-item
         v-list-item-content(:class="$style.challenge")
           h3 TES CHALLENGES
-          div(v-if="hasData")
+          div(v-if="isUserLogged")
             p Les challenges arrivent prochainement!
-          p(v-if="!hasData") #[router-link(to="/sign-in" :class="$style.signUp" ) Connecte toi] ou #[router-link(to="/sign-up" :class="$style.signUp") créer un compte] pour pouvoir jouer !
+          p(v-if="!isUserLogged") #[router-link(to="/sign-in" :class="$style.signUp" ) Connecte toi] ou #[router-link(to="/sign-up" :class="$style.signUp") créer un compte] pour pouvoir jouer !
 </template>
 
 <script>
 import categories from "@/utils/articlesNavigation.json"
 import Link from "@/components/Navigation/component/Link.vue"
+
+import { mapGetters } from "vuex"
+
 export default {
   name: "Navigation",
   components: {
@@ -41,9 +44,7 @@ export default {
     }
   },
   computed: {
-    hasData() {
-      return this.$store.getters.hasData
-    }
+    ...mapGetters(["isUserLogged"])
   }
 }
 </script>
@@ -85,7 +86,7 @@ h3 {
   }
 }
 
-.profileLoged {
+.profileLogged {
   display: flex;
   align-items: center;
   margin-bottom: 20px !important;
