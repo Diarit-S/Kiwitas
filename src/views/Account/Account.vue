@@ -5,7 +5,7 @@
       Tabs(@changeCategory="changeCategory")
       Favorites(v-if="isFavorite" v-for="favorite in favArticles" :key="favorite.id" :content="favorite")
       Certification(v-if="isCertification")
-      span(v-else-if="favorites.length === 0") Vous retrouverez ici vos favoris
+      span(v-else-if="favArticles.length === 0") Vous retrouverez ici vos favoris
 </template>
 
 <script>
@@ -13,6 +13,9 @@ import User from "@/views/Account/components/User.vue"
 import Tabs from "@/views/Account/components/Tabs.vue"
 import Favorites from "@/views/Account/components/Favorites.vue"
 import Certification from "@/views/Account/components/Certification.vue"
+
+import articlesNavigation from "@/utils/articlesNavigation.json"
+
 export default {
   name: "Account",
   components: {
@@ -32,19 +35,26 @@ export default {
     changeCategory(category) {
       category === "fav" ? (this.isFavorite = true) : (this.isFavorite = false)
       this.isCertification = !this.isFavorite
-    },
-    async getFavoriteArticles() {
-      const fav = await this.$http.post("/favoriteArticles", { ids: this.favArticles })
-      this.favorites = fav
     }
+    //- TODO This had to be removed
+    // async getFavoriteArticles() {
+    //   const fav = await this.$http.post("article/favoriteArticles", { ids: this.favArticles })
+    //   this.favorites = fav
+    // }
   },
   computed: {
-    favArticles() {
+    articles() {
+      return articlesNavigation.reduce((acc, category) => {
+        acc = acc.concat(category.articles)
+        return acc
+      }, [])
+    },
+    favArticlesIds() {
       return this.$store.state.userData.user.favorites
+    },
+    favArticles() {
+      return this.articles.filter(article => this.favArticlesIds.includes(article.apiId))
     }
-  },
-  created() {
-    this.getFavoriteArticles()
   }
 }
 </script>

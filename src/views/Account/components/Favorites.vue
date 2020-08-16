@@ -6,7 +6,7 @@
         h3 {{content.name}}
         img(src="/img/icons/fav.svg" alt="favorite star")
       p #[span Résumé] : {{content.abstract}}
-      v-btn(:class="$style.btn" color="primary" :to="`/course/${content.id}`") LIRE
+      v-btn(:class="$style.btn" color="primary" :to="`/course/${content.apiId}`") LIRE
 </template>
 
 <script>

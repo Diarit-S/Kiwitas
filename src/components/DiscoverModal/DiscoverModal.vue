@@ -14,8 +14,8 @@
         img(src="/img/icons/success.svg")
         p Validé !
       div(:class="$style.favorite")
-        img(src="/img/icons/fav.svg" v-if="favorite" @click="getFavorite(content.id)")
-        svg(width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" v-else @click="getFavorite(content.id)")
+        img(src="/img/icons/fav.svg" v-if="isArticleInFavorites" @click="toggleFromFavorite(content.apiId)")
+        svg(width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" v-else @click="toggleFromFavorite(content.apiId)")
           path(d="M17.4798 7.2496L12.9284 6.55624L10.8942 2.24634C10.5297 1.47811 9.4736 1.46835 9.106 2.24634L7.07174 6.55624L2.52034 7.2496C1.70415 7.3733 1.37704 8.42473 1.96894 9.02694L5.26177 12.3798L4.48296 17.1161C4.34277 17.9723 5.2057 18.6135 5.92844 18.2131L10.0001 15.9768L14.0717 18.2131C14.7945 18.6103 15.6574 17.9723 15.5172 17.1161L14.7384 12.3798L18.0312 9.02694C18.6231 8.42473 18.296 7.3733 17.4798 7.2496ZM13.134 11.8329L13.8724 16.3381L10.0001 14.2125L6.12781 16.3381L6.86613 11.8329L3.73218 8.64283L8.06239 7.98528L10.0001 3.88371L11.9378 7.98528L16.268 8.64283L13.134 11.8329Z" fill="#545B67")
 </template>
 
@@ -57,26 +57,16 @@ export default {
         .put(`/user/${idUser}`, { favoriteArticles: favorite_articles })
         .then(reponse => console.log(response))
     } */,
-    getFavorite(id) {
-      this.favorite ? (this.favorite = false) : (this.favorite = true)
-      let localUser = this.localUser
-      let favList = localUser.favorite_articles
-      const whiteList = favList.map(fav => fav.id) // Store all ID in the white list to use this list
-      if (this.favorite && !whiteList.includes(id)) { // here for check if one of the element has been already stored
-        favList.push(this.content)
-        this.setLocalUser(localUser)
-        /* this.setBackUser(localUser) */
-      } else if (!this.favorite && whiteList.includes(id)) {
-        favList = favList.filter(articleFav => articleFav.id !== id)
-        localUser.favorite_articles = favList
-        this.setLocalUser(localUser)
-        /* this.setBackUser(localUser) */
-      }
+    toggleFromFavorite(articleApiId) {
+      this.$store.dispatch('toggleFromFavorites', articleApiId)
     }
   },
   computed: {
     localUser() {
       return JSON.parse(localStorage.getItem("userLog"))
+    },
+    isArticleInFavorites() {
+      return this.$store.state.userData.user && this.$store.state.userData.user.favorites.includes(this.content.apiId)
     },
     isModalOpen: {
       get() {

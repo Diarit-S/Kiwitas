@@ -56,7 +56,7 @@ export default {
       const { name, lastName, email, password, username } = this
       // eslint-disable-next-line no-unused-vars
       const sendUserData = await this.$http
-        .post("/auth/signup", {
+        .post("/user/signup", {
           name,
           lastName,
           email,

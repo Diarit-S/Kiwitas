@@ -17,6 +17,8 @@ import Introduction from "@/components/Introduction/Introduction.vue"
 import Navigation from "@/components/Navigation/Navigation.vue"
 import MobileNavigation from "@/components/MobileNavigation/MobileNavigation.vue"
 
+import Cookies from "js-cookie"
+
 export default {
   name: "App",
   components: {
@@ -31,6 +33,18 @@ export default {
       testArticle: {}
     }
   },
+  methods: {
+    logStoredUser() {
+      console.log("test")
+      if (!this.$store.getters.isUserLogged) {
+        const storedUserToken = Cookies.get("token")
+        console.log(storedUserToken)
+        if (storedUserToken) {
+          this.$store.dispatch("loginFromToken", storedUserToken)
+        }
+      }
+    }
+  },
   created() {
     this.isFirstTime = JSON.parse(localStorage.getItem("firstTime")) === null
     let localUser = JSON.parse(localStorage.getItem("userLog"))
@@ -43,6 +57,7 @@ export default {
     if (localStorage.getItem("isDark")) {
       this.$vuetify.theme.dark = JSON.parse(localStorage.getItem("isDark"))
     }
+    this.logStoredUser()
   }
 }
 </script>
