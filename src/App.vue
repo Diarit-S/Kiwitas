@@ -51,9 +51,6 @@ export default {
     if (localUser) {
       this.$store.dispatch("getLocalUserData", { localUser })
     }
-    if (!localStorage.getItem("readArticles")) {
-      localStorage.setItem("readArticles", JSON.stringify([]))
-    }
     if (localStorage.getItem("isDark")) {
       this.$vuetify.theme.dark = JSON.parse(localStorage.getItem("isDark"))
     }

@@ -54,6 +54,8 @@ import Assertation from "./components/Assertation.vue"
 import FinishedQuizzPopup from "./components/FinishedQuizzPopup.vue"
 import LeaveQuizzDialog from "./components/LeaveQuizzDialog.vue"
 
+import { articlesMixin } from "@/mixins/articles"
+
 // import articlesNavigation from "@/utils/articlesNavigation.json"
 
 export default {
@@ -77,13 +79,10 @@ export default {
       steps: 0
     }
   },
+  mixins: [articlesMixin],
   computed: {
     goodAnswerPosition() {
       return Number(this.questions[this.currentQuestion - 1].answerIndex) + 1
-    },
-    readArticles() {
-      const storedreadArticles = localStorage["readArticles"]
-      return storedreadArticles ? JSON.parse(storedreadArticles) : []
     }
   },
   methods: {
@@ -96,8 +95,7 @@ export default {
         this.canLeaveRoute = true
         this.isQuizzFinished = true
         if (this.score === this.steps) {
-          const readArticles = [...this.readArticles, this.$route.params.id]
-          localStorage.setItem("readArticles", JSON.stringify(readArticles))
+          this.$store.dispatch("addArticleToReadList", this.$route.params.id)
         }
       }
     },

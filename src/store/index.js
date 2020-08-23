@@ -1,7 +1,6 @@
 import Vue from "vue"
 import Vuex from "vuex"
 import axios from "axios"
-// import jwt_decode from "jwt-decode"
 import Cookies from "js-cookie"
 import _ from "lodash"
 
@@ -27,15 +26,11 @@ export default new Vuex.Store({
       })
     },
     UPDATE_FAVORITES(state, newFavorites) {
-      console.log("je suis dans la mutation")
       state.userData.user.favorites = newFavorites
+    },
+    UPDATE_READ_ARTICLES(state, newReadArticles) {
+      state.userData.user.readArticles = newReadArticles
     }
-    // TOGGLE_FROM_FAVORITES(state, articleId) {
-    //   const itemIndex = state.userData.user.favorites.indexOf(articleId)
-    //   itemIndex >= 0 ?
-    //   state.userData.user.favorites.splice(itemIndex, 1) :
-    //   state.userData.user.favorites.push(articleId)
-    // }
   },
   actions: {
     async login(context, credentials) {
@@ -48,9 +43,7 @@ export default new Vuex.Store({
       context.commit("SET_ACCOUNT", { userData: userData.data })
       context.commit("STORE_NEW_TOKEN", userData.data.token)
     },
-    //- TODO Find the best way to update favorites in DB
     async toggleFromFavorites(context, articleId) {
-      console.log("okkkkk", articleId)
       let favoritesCopy = _.cloneDeep(context.state.userData.user.favorites)
 
       const itemIndex = favoritesCopy.indexOf(articleId)
@@ -60,9 +53,27 @@ export default new Vuex.Store({
 
       await axios.post("/user/updateFavorites", { favorites: favoritesCopy, userId }).catch(err => {
         console.error(err)
+        throw err
       })
-      console.log("eee")
       context.commit("UPDATE_FAVORITES", favoritesCopy)
+    },
+    async addArticleToReadList(context, articleId) {
+      let readArticlesCopy = _.cloneDeep(context.state.userData.user.readArticles)
+
+      if (!readArticlesCopy.includes(articleId)) {
+        readArticlesCopy.push(articleId)
+      }
+
+      const userId = context.state.userData.user._id
+
+      await axios
+        .post("/user/updateReadArticles", { readArticles: readArticlesCopy, userId })
+        .catch(err => {
+          console.error(err)
+          throw err
+        })
+
+      context.commit("UPDATE_READ_ARTICLES", readArticlesCopy)
     }
   }
 })

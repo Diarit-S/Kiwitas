@@ -6,11 +6,10 @@
   )
     v-card(:class="$style.card")
       Icon(:class="$style.icon" :imageName="content.icon")
-      h3 {{'Chapitre ' + content.id + ' - ' + content.name}}
       p(:class="$style.subtitle") {{content.name}}
       p(:class="$style.content") #[span Résumé :] {{content.abstract}}
       v-btn(:class="$style.btn" color="primary" :to="`/course/${content.apiId}`") Lire
-      div(:class="$style.success" v-if="validate")
+      div(:class="$style.success" v-if="isReaded(content)")
         img(src="/img/icons/success.svg")
         p Validé !
       div(:class="$style.favorite")
@@ -22,6 +21,8 @@
 <script>
 /* eslint-disable */
 import Icon from "./components/Icon.vue"
+import { articlesMixin } from "@/mixins/articles"
+
 export default {
   name: "DiscoverModal",
   components: {
@@ -29,42 +30,20 @@ export default {
   },
   data() {
     return {
-      validate: false,
-      favorite: false
+      validate: false
     }
   },
+  mixins: [articlesMixin],
   props: {
     content: { type: Object, required: true },
     dialog: { type: Boolean, default: false }
   },
-  updated() {
-    if (this.localUser) {
-      let localUser = this.localUser
-      let favList = localUser.favorite_articles
-      const whiteList = favList.map(fav => fav.id)
-      if (whiteList.includes(this.content.id)) {
-        this.favorite = true
-      } else this.favorite = false
-    }
-  },
   methods: {
-    setLocalUser(newLocaluser) {
-      localStorage.setItem("userLog", JSON.stringify(newLocaluser))
-    }/* ,
-    async setBackUser({ favorite_articles }) {
-      const idUser = this.$store.state.accountData.id
-      const sendUser = await this.$http
-        .put(`/user/${idUser}`, { favoriteArticles: favorite_articles })
-        .then(reponse => console.log(response))
-    } */,
     toggleFromFavorite(articleApiId) {
       this.$store.dispatch('toggleFromFavorites', articleApiId)
     }
   },
   computed: {
-    localUser() {
-      return JSON.parse(localStorage.getItem("userLog"))
-    },
     isArticleInFavorites() {
       return this.$store.state.userData.user && this.$store.state.userData.user.favorites.includes(this.content.apiId)
     },
@@ -107,6 +86,7 @@ export default {
   position: relative;
   font-family: "Gotham", sans-serif;
   font-size: 14px;
+  margin-top: 0.5rem;
 }
 .content {
   font-size: 12px;
