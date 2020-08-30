@@ -25,7 +25,7 @@
           frameborder="0"
         )
         remember(
-          :listToRemember="course.to_remember" 
+          :listToRemember="course.toRemember" 
           :courseId="$route.params.id"
         )
         v-btn(
