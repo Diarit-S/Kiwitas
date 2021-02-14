@@ -38,6 +38,11 @@ export default new Vuex.Store({
       context.commit("SET_ACCOUNT", { userData: userData.data })
       context.commit("STORE_NEW_TOKEN", userData.data.token)
     },
+    async signup(context, accountData) {
+      const userData = await axios.post("/user/signup", accountData)
+      context.commit("SET_ACCOUNT", { userData: userData.data })
+      context.commit("STORE_NEW_TOKEN", userData.data.token)
+    },
     async loginFromToken(context, token) {
       const userData = await axios.post("/user/loginFromToken", { token })
       context.commit("SET_ACCOUNT", { userData: userData.data })

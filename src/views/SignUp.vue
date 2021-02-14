@@ -8,12 +8,12 @@
         p(v-if="failLogIn") Tes identifiants ne correspondent pas.©©
         v-row(:class="$style.dividedColumns")
           v-col(:class="$style.dividedColumn" :cols="$vuetify.breakpoint.xs ? 12 : 6")
-            v-text-field(v-model="name" :rules="simpleRules" label="Prénom" outlined required)
+            v-text-field(v-model="accountData.name" :rules="simpleRules" label="Prénom" outlined required)
           v-col(:class="$style.dividedColumn" :cols="$vuetify.breakpoint.xs ? 12 : 6")
-            v-text-field(v-model="lastName" :rules="simpleRules" label="Nom" outlined required)
-        v-text-field(v-model="username" :rules="simpleRules" label="Pseudo" outlined required)
-        v-text-field(v-model="email" :rules="emailRules" label="E-mail" outlined required)
-        v-text-field(v-model="password" :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" :rules="passwordRules" :type="show1 ? 'text' : 'password'" @click:append="show1 = !show1" label="Mot de passe" outlined required)
+            v-text-field(v-model="accountData.lastName" :rules="simpleRules" label="Nom" outlined required)
+        v-text-field(v-model="accountData.username" :rules="simpleRules" label="Pseudo" outlined required)
+        v-text-field(v-model="accountData.email" :rules="emailRules" label="E-mail" outlined required)
+        v-text-field(v-model="accountData.password" :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" :rules="passwordRules" :type="show1 ? 'text' : 'password'" @click:append="show1 = !show1" label="Mot de passe" outlined required)
         v-btn(:disabled="!valid" color="primary" @click="createUser") Je m'inscris
 </template>
 
@@ -27,11 +27,13 @@ export default {
   },
   data: () => ({
     valid: true,
-    name: "",
-    lastName: "",
-    username: "",
-    email: "",
-    password: "",
+    accountData: {
+      name: "",
+      lastName: "",
+      username: "",
+      email: "",
+      password: ""
+    },
     show1: false,
     simpleRules: [v => !!v || "Ce champ est requis"],
     emailRules: [
@@ -52,36 +54,9 @@ export default {
     },
     async createUser() {
       this.isLoading = true
-      this.validate()
-      const { name, lastName, email, password, username } = this
-      // eslint-disable-next-line no-unused-vars
-      const sendUserData = await this.$http
-        .post("/user/signup", {
-          name,
-          lastName,
-          email,
-          password,
-          username
-        })
-        .then(response => {
-          console.error("its okkkk")
-          console.log(response)
-        })
-        .catch(e => {
-          console.log(e)
-          this.isLoading = false
-        })
-    },
-    getUser() {
-      const { email, password } = this
-      this.$store.dispatch("getAccountData", { email, password })
-      setTimeout(() => {
-        if (this.isLogged) {
-          this.$router.push("/")
-        } else {
-          this.failLogIn = true
-        }
-      }, 3000)
+      await this.validate()
+      this.$store.dispatch("signup", this.accountData).finally(() => (this.isLoading = false))
+      this.$router.push("/")
     }
   },
   computed: {
