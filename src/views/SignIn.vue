@@ -9,7 +9,6 @@
         v-text-field(v-model="email" :rules="emailRules" label="E-mail exemple@gmail.com" outlined required)
         v-text-field(v-model="password" :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" :rules="passwordRules" :type="show1 ? 'text' : 'password'" @click:append="show1 = !show1" label="Mot de passe" outlined required)
         v-btn(:disabled="!valid" color="primary"  @click="login") Je me connecte
-        v-btn(color="primary" @click="logState") Log state
 </template>
 
 <script>
@@ -45,9 +44,6 @@ export default {
       this.validate()
       const { email, password } = this
       this.$store.dispatch("login", { email, password }).finally(() => (this.isLoading = false))
-    },
-    logState() {
-      console.log(this.$store.state)
     }
   },
   computed: {
