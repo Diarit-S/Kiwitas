@@ -5,7 +5,7 @@
         Navigation(v-if="!isFirstTime")
         //- TODO Set this style on a class in proper way
       v-col(style="padding-top: 3rem" :cols="$vuetify.breakpoint.smAndDown ? 12 : 9")
-        router-view(v-if="!isFirstTime" :class="$style.app")
+        router-view(:class="$style.app")
     theme-toggler
     MobileNavigation(v-if="!isFirstTime && $vuetify.breakpoint.smAndDown")
 </template>
