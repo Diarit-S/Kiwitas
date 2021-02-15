@@ -7,7 +7,6 @@
       v-col(style="padding-top: 3rem" :cols="$vuetify.breakpoint.smAndDown ? 12 : 9")
         router-view(v-if="!isFirstTime" :class="$style.app")
     theme-toggler
-    Introduction(v-if="isFirstTime" @closeIntroduction="isFirstTime = false")
     MobileNavigation(v-if="!isFirstTime && $vuetify.breakpoint.smAndDown")
 </template>
 
